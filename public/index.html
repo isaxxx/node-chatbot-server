@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>Chatbot Test</title>
+</head>
+<body>
+  <h1>チャットボットテスト</h1>
+  <form method="post" action="/api/">
+    <textarea name="question"></textarea>
+    <button type="submit">送信</button>
+  </form>
+  <script>
+    const $form = document.querySelector('form');
+    const $textarea = document.querySelector('textarea');
+    $form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const question = $textarea.value;
+      $textarea.value = '';
+      fetch('/api/', {
+        method: 'POST',
+        headers: new Headers({
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        }),
+        body: JSON.stringify({
+          question,
+        }),
+      })
+      .then(res => res.text())
+      .then(text => {
+        console.log(text);
+      });
+    });
+  </script>
+</body>
+</html>
